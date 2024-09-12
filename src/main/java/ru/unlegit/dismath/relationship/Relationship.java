@@ -1,6 +1,7 @@
 package ru.unlegit.dismath.relationship;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,6 +23,18 @@ public record Relationship(int[] baseSet, List<OrderedPair> elements) {
         return elements.stream()
                 .map(OrderedPair::toString)
                 .collect(Collectors.joining(",", "{", "}"));
+    }
+
+    public boolean inclusion(Relationship relationship) {
+        return new HashSet<>(relationship.elements).containsAll(elements);
+    }
+
+    public boolean equals(Relationship relationship) {
+        return elements.equals(relationship.elements);
+    }
+
+    public boolean strictInclusion(Relationship relationship) {
+        return inclusion(relationship) && !equals(relationship);
     }
 
     public Relationship or(Relationship relationship) {

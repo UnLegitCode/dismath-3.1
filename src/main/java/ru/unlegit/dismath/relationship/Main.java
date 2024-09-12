@@ -24,10 +24,18 @@ public final class Main {
 
         Relationship D = four.composition(C);
 
+        System.out.println();
         System.out.println(one);
         System.out.println(two);
         System.out.println(three);
         System.out.println(four);
         System.out.println(D);
+        A.printMatrix();
+        System.out.println();
+        B.printMatrix();
+        System.out.println();
+        C.printMatrix();
+        System.out.println();
+        D.printMatrix();
     }
 }
