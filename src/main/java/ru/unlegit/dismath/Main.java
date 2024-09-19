@@ -1,5 +1,6 @@
-package ru.unlegit.dismath.relationship;
+package ru.unlegit.dismath;
 
+import ru.unlegit.dismath.relationship.*;
 import ru.unlegit.dismath.util.IntRange;
 
 import java.util.Optional;
