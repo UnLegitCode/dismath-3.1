@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import ru.unlegit.dismath.util.MathUtil;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 @Getter
 @AllArgsConstructor
 public enum RelationshipProperty {
@@ -130,17 +133,25 @@ public enum RelationshipProperty {
         }
     };
 
+    public static Set<RelationshipProperty> findProperties(
+            MatrixRelationship relationship, String relationshipDisplayName
+    ) {
+        Set<RelationshipProperty> properties = EnumSet.noneOf(RelationshipProperty.class);
+
+        for (RelationshipProperty property : values()) {
+            PropertyCheckResult result = property.check(relationship);
+
+            if (result.isSuccess()) {
+                properties.add(property);
+            } else {
+                System.out.printf("Множество %s: %s%n", relationshipDisplayName, result.getCause());
+            }
+        }
+
+        return properties;
+    }
+
     private final String displayName;
 
     protected abstract PropertyCheckResult check(MatrixRelationship relationship);
-
-    public final void checkAndDisplayResult(MatrixRelationship relationship, String relationshipDisplayName) {
-        PropertyCheckResult result = check(relationship);
-
-        if (result.isSuccess()) {
-            System.out.printf("Множество %s удовлетворяют свойству '%s'%n", relationshipDisplayName, displayName);
-        } else {
-            System.out.printf("Множество %s: %s%n", relationshipDisplayName, result.getCause());
-        }
-    }
 }

@@ -2,6 +2,9 @@ package ru.unlegit.dismath.relationship;
 
 import ru.unlegit.dismath.util.IntRange;
 
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public final class Main {
@@ -63,10 +66,38 @@ public final class Main {
 
         System.out.println("\nRelationship properties:");
 
-        for (RelationshipProperty property : RelationshipProperty.values()) {
-            property.checkAndDisplayResult(matrixA, "A");
-            property.checkAndDisplayResult(matrixB, "B");
-            property.checkAndDisplayResult(matrixC, "C");
-        }
+        Set<RelationshipProperty> aProperties = RelationshipProperty.findProperties(matrixA, "A");
+        Set<RelationshipProperty> bProperties = RelationshipProperty.findProperties(matrixB, "B");
+        Set<RelationshipProperty> cProperties = RelationshipProperty.findProperties(matrixC, "C");
+
+        System.out.println("\nBasic properties:");
+
+        System.out.println("A: ".concat(aProperties.stream()
+                .map(RelationshipProperty::getDisplayName)
+                .collect(Collectors.joining(", "))
+        ));
+        System.out.println("B: ".concat(bProperties.stream()
+                .map(RelationshipProperty::getDisplayName)
+                .collect(Collectors.joining(", "))
+        ));
+        System.out.println("C: ".concat(cProperties.stream()
+                .map(RelationshipProperty::getDisplayName)
+                .collect(Collectors.joining(", "))
+        ));
+
+        System.out.println("\nDerived properties:");
+
+        System.out.println("A: " + Optional.ofNullable(DerivedRelationshipProperty.findDerivedProperty(aProperties))
+                .map(DerivedRelationshipProperty::getDisplayName)
+                .orElse("отсутствует")
+        );
+        System.out.println("B: " + Optional.ofNullable(DerivedRelationshipProperty.findDerivedProperty(bProperties))
+                .map(DerivedRelationshipProperty::getDisplayName)
+                .orElse("отсутствует")
+        );
+        System.out.println("C: " + Optional.ofNullable(DerivedRelationshipProperty.findDerivedProperty(cProperties))
+                .map(DerivedRelationshipProperty::getDisplayName)
+                .orElse("отсутствует")
+        );
     }
 }
