@@ -145,10 +145,10 @@ public record MatrixRelationship(int size, byte[][] matrix) implements Relations
             System.out.print("(");
 
             IntStream.range(0, size).forEach(right -> {
-                System.out.print(matrix[left - 1][right - 1]);
+                System.out.print(matrix[left][right]);
 
                 if (right != size - 1) {
-                    System.out.print(",");
+                    System.out.print(" ");
                 }
             });
 

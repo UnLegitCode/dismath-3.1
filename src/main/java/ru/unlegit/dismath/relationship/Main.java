@@ -60,5 +60,13 @@ public final class Main {
         matrixC.printMatrix();
         System.out.println("D = " + matrixD);
         matrixD.printMatrix();
+
+        System.out.println("\nRelationship properties:");
+
+        for (RelationshipProperty property : RelationshipProperty.values()) {
+            property.checkAndDisplayResult(matrixA, "A");
+            property.checkAndDisplayResult(matrixB, "B");
+            property.checkAndDisplayResult(matrixC, "C");
+        }
     }
 }
