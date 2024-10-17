@@ -155,4 +155,16 @@ public record MatrixRelationship(int size, byte[][] matrix) implements Relations
             System.out.println(")");
         });
     }
+
+    public boolean contains(int left, int right) {
+        return matrix[left][right] == 1;
+    }
+
+    public MatrixRelationship with(int left, int right, boolean state) {
+        byte[][] newMatrix = matrix.clone();
+
+        newMatrix[left][right] = (byte) (state ? 1 : 0);
+
+        return new MatrixRelationship(size, newMatrix);
+    }
 }
