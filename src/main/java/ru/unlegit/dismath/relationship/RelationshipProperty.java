@@ -134,7 +134,7 @@ public enum RelationshipProperty {
     };
 
     public static Set<RelationshipProperty> findProperties(
-            MatrixRelationship relationship, String relationshipDisplayName
+            MatrixRelationship relationship, String relationshipDisplayName, boolean printCauses
     ) {
         Set<RelationshipProperty> properties = EnumSet.noneOf(RelationshipProperty.class);
 
@@ -143,7 +143,7 @@ public enum RelationshipProperty {
 
             if (result.isSuccess()) {
                 properties.add(property);
-            } else {
+            } else if (printCauses) {
                 System.out.printf("Множество %s: %s%n", relationshipDisplayName, result.getCause());
             }
         }

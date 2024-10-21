@@ -167,4 +167,46 @@ public record MatrixRelationship(int size, byte[][] matrix) implements Relations
 
         return new MatrixRelationship(size, newMatrix);
     }
+
+    public int[] generateFactorSet() {
+        int[] factorSet = new int[size];
+
+        for (int i = 0; i < size; i++) {
+            int k = 0;
+
+            for (int j = 0; j < size; j++) {
+                if (factorSet[j] != 0) continue;
+
+                k++;
+
+                for (int l = 0; l < size; l++) {
+                    if (contains(j, l)) {
+                        factorSet[l] = k;
+                    }
+                }
+            }
+        }
+
+        return factorSet;
+    }
+
+    public String formatFactorSet() {
+        int[] factorSet = generateFactorSet();
+        int equivalenceClassAmount = (int) Arrays.stream(factorSet).distinct().count();
+        int[][] equivalenceClasses = new int[equivalenceClassAmount][];
+
+        for (int i = 0; i < equivalenceClassAmount; i++) {
+            int classIndex = i + 1; //concurrency moment
+
+            equivalenceClasses[i] = IntStream.rangeClosed(1, size)
+                    .filter(value -> factorSet[value - 1] == classIndex)
+                    .toArray();
+        }
+
+        return Arrays.stream(equivalenceClasses)
+                .map(equivalenceClass -> Arrays.stream(equivalenceClass)
+                        .mapToObj(String::valueOf)
+                        .collect(Collectors.joining(",", "{", "}"))
+                ).collect(Collectors.joining(", ", "{", "}"));
+    }
 }
