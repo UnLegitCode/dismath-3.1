@@ -20,6 +20,10 @@ public final class LabWork1 {
     private static final GeneratingProcedure GENERATING_PROCEDURE_C = (left, right) ->
             ((left * left) + (right * right)) < 100;
 
+    private static boolean isInRange(int value, int leftBound, int rightBound) {
+        return value > leftBound && value > rightBound;
+    }
+
     public static void main(String[] args) {
         int[] baseSet = IntStream.rangeClosed(1, 10).toArray();
         int size = baseSet.length;
