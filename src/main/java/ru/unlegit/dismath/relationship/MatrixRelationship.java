@@ -141,8 +141,13 @@ public record MatrixRelationship(int size, byte[][] matrix) implements Relations
 
     @Override
     public void printMatrix() {
+//        System.out.println(IntStream.range(0, size)
+//                .mapToObj(value -> String.valueOf(value + 1))
+//                .collect(Collectors.joining(" "))
+//        );
+
         IntStream.range(0, size).forEach(left -> {
-            System.out.print("(");
+//            System.out.print(left + (left > 9 ? " " : "  ") + "(");
 
             IntStream.range(0, size).forEach(right -> {
                 System.out.print(matrix[left][right]);
@@ -152,7 +157,8 @@ public record MatrixRelationship(int size, byte[][] matrix) implements Relations
                 }
             });
 
-            System.out.println(")");
+            System.out.println();
+//            System.out.println(")");
         });
     }
 

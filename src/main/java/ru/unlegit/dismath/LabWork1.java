@@ -25,62 +25,17 @@ public final class LabWork1 {
     private static final GeneratingProcedure GENERATING_PROCEDURE_C = (left, right) ->
             C_LEFT_VALUES.contains(left) && C_RIGHT_VALUES.contains(right);
 
+    private static boolean isInRange(int value, int leftBound, int rightBound) {
+        return value > leftBound && value > rightBound;
+    }
+
     public static void main(String[] args) {
         int[] baseSet = IntStream.rangeClosed(1, 10).toArray();
-
-//        OrderedPairListRelationship A = OrderedPairListRelationship.generate(baseSet, GENERATING_PROCEDURE_A);
-//        OrderedPairListRelationship B = OrderedPairListRelationship.generate(baseSet, GENERATING_PROCEDURE_B);
-//        OrderedPairListRelationship C = OrderedPairListRelationship.generate(baseSet, GENERATING_PROCEDURE_C);
-
-//        OrderedPairListRelationship one = A.power(2);
-//        OrderedPairListRelationship two = A.inversion();
-//        OrderedPairListRelationship three = one.subtract(B);
-//        OrderedPairListRelationship four = three.or(two);
-//        OrderedPairListRelationship D = four.composition(C);
-//
-//        System.out.println("Ordered pair list implementation:");
-//
-//        System.out.println("A = " + A);
-//        A.printMatrix();
-//        System.out.println("B = " + B);
-//        B.printMatrix();
-//        System.out.println("C = " + C);
-//        C.printMatrix();
-//        System.out.println("D = " + D);
-//        D.printMatrix();
-//        System.out.println();
-
         int size = baseSet.length;
 
-        MatrixRelationship matrixA = MatrixRelationship.generate(size, GENERATING_PROCEDURE_A);
-        MatrixRelationship matrixB = MatrixRelationship.generate(size, GENERATING_PROCEDURE_B);
-        MatrixRelationship matrixC = MatrixRelationship.generate(size, GENERATING_PROCEDURE_C);
-
-//        MatrixRelationship matrixOne = matrixA.power(2);
-//        MatrixRelationship matrixTwo = matrixA.inversion();
-//        MatrixRelationship matrixThree = matrixOne.subtract(matrixB);
-//        MatrixRelationship matrixFour = matrixThree.or(matrixTwo);
-//        MatrixRelationship matrixD = matrixFour.composition(matrixC);
-        MatrixRelationship matrixOne = matrixB.inversion();
-        MatrixRelationship matrixTwo = matrixA.and(matrixOne);
-        MatrixRelationship matrixThree = matrixA.composition(matrixC);
-        MatrixRelationship matrixFour = matrixThree.composition(matrixB);
-        MatrixRelationship matrixD = matrixTwo.subtractSymmetrically(matrixFour);
-
-        matrixD.printMatrix();
-
-//        System.out.println("Matrix implementation:");
-
-//        System.out.println("A = " + matrixA);
-//        matrixA.printMatrix();
-//        System.out.println("B = " + matrixB);
-//        matrixB.printMatrix();
-//        System.out.println("C = " + matrixC);
-//        matrixC.printMatrix();
-//        System.out.println("D = " + matrixD);
-//        matrixD.printMatrix();
-
-//        System.out.println("\nRelationship properties:");
+//        MatrixRelationship matrixA = MatrixRelationship.generate(size, GENERATING_PROCEDURE_A);
+//        MatrixRelationship matrixB = MatrixRelationship.generate(size, GENERATING_PROCEDURE_B);
+//        MatrixRelationship matrixC = MatrixRelationship.generate(size, GENERATING_PROCEDURE_C);
 //
 //        Set<RelationshipProperty> aProperties = RelationshipProperty.findProperties(matrixA, "A");
 //        Set<RelationshipProperty> bProperties = RelationshipProperty.findProperties(matrixB, "B");
@@ -115,5 +70,21 @@ public final class LabWork1 {
 //                .map(DerivedRelationshipProperty::getDisplayName)
 //                .orElse("отсутствует")
 //        );
+
+        MatrixRelationship A = MatrixRelationship.generate(size, (left, right) -> right - left > 5 || left - right > 5);
+        MatrixRelationship B = MatrixRelationship.generate(size, (left, right) -> (10 * left + 2 * right + 1) % 3 == 0);
+        MatrixRelationship C = MatrixRelationship.generate(size, (left, right) ->
+                isInRange(right, left + 3, 11 - left) ||
+                        isInRange(right, 9 - left, left + 1)
+        );
+
+        MatrixRelationship one = A.inversion();
+        MatrixRelationship two = one.subtract(C);
+        MatrixRelationship three = two.addition();
+        MatrixRelationship four = A.or(B);
+
+        MatrixRelationship D = three.composition(four);
+
+        D.printMatrix();
     }
 }

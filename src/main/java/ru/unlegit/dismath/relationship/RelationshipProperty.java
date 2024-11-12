@@ -144,7 +144,7 @@ public enum RelationshipProperty {
             if (result.isSuccess()) {
                 properties.add(property);
             } else {
-                System.out.printf("Множество %s: %s%n", relationshipDisplayName, result.getCause());
+//                System.out.printf("Множество %s: %s%n", relationshipDisplayName, result.getCause());
             }
         }
 
