@@ -1,6 +1,5 @@
 package ru.unlegit.dismath;
 
-import ru.unlegit.dismath.relationship.GeneratingProcedure;
 import ru.unlegit.dismath.relationship.MatrixRelationship;
 
 public final class LabWork2 {
