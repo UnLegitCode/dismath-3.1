@@ -134,7 +134,7 @@ public enum RelationshipProperty {
     };
 
     public static Set<RelationshipProperty> findProperties(
-            MatrixRelationship relationship, String relationshipDisplayName, boolean printCauses
+            MatrixRelationship relationship, String relationshipDisplayName
     ) {
         Set<RelationshipProperty> properties = EnumSet.noneOf(RelationshipProperty.class);
 

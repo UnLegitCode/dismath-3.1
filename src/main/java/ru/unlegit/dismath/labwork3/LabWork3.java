@@ -83,7 +83,7 @@ public final class LabWork3 {
         System.out.printf("Set %s:%n", setName);
         System.out.println("Derived property: " + DerivedRelationshipProperty.findDerivedProperty(
                 RelationshipProperty.findProperties(relationship, setName)
-        ));
+        ).getDisplayName());
         System.out.println("Domination relationship matrix: ");
         getDominationRelationship(relationship).printMatrix();
         System.out.println("Topological sorting levels:");
