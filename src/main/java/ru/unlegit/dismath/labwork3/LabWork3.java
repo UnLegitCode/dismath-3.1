@@ -6,7 +6,7 @@ import ru.unlegit.dismath.relationship.DerivedRelationshipProperty;
 import ru.unlegit.dismath.relationship.MatrixRelationship;
 import ru.unlegit.dismath.relationship.RelationshipProperty;
 
-import java.util.*;
+import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;

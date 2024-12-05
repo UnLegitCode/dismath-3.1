@@ -52,13 +52,13 @@ public final class LabWork1 {
         System.out.println("\nRelationship properties:");
 
         Set<RelationshipProperty> aProperties = RelationshipProperty.findProperties(
-                matrixA, "A", true
+                matrixA, "A"
         );
         Set<RelationshipProperty> bProperties = RelationshipProperty.findProperties(
-                matrixB, "B", true
+                matrixB, "B"
         );
         Set<RelationshipProperty> cProperties = RelationshipProperty.findProperties(
-                matrixC, "C", true
+                matrixC, "C"
         );
 
         System.out.println("\nBasic properties:");

@@ -16,7 +16,7 @@ public final class LabWork3 {
         relationship.printMatrix();
 
         System.out.println("\nСвойства отношения: ".concat(RelationshipProperty
-                .findProperties(relationship, "R", false)
+                .findProperties(relationship, "R")
                 .stream()
                 .map(RelationshipProperty::getDisplayName)
                 .collect(Collectors.joining(", "))

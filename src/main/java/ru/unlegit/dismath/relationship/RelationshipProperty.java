@@ -2,7 +2,7 @@ package ru.unlegit.dismath.relationship;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import ru.unlegit.dismath.util.MathUtil;
+import ru.unlegit.dismath.util.JavaUtil;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -38,7 +38,7 @@ public enum RelationshipProperty {
     SYMMETRY("симметричность") {
         @Override
         protected PropertyCheckResult check(MatrixRelationship relationship) {
-            int iLimit  = MathUtil.getHalf(relationship.size());
+            int iLimit  = JavaUtil.getHalf(relationship.size());
 
             for (int i = 0; i < iLimit; i++) {
                 for (int j = iLimit; j < relationship.size(); j++) {
@@ -55,7 +55,7 @@ public enum RelationshipProperty {
     ANTI_SYMMETRY("антисимметричность") {
         @Override
         protected PropertyCheckResult check(MatrixRelationship relationship) {
-            int iLimit  = MathUtil.getHalf(relationship.size());
+            int iLimit  = JavaUtil.getHalf(relationship.size());
 
             for (int i = 0; i < iLimit; i++) {
                 for (int j = iLimit; j < relationship.size(); j++) {
@@ -116,7 +116,7 @@ public enum RelationshipProperty {
     COMPLETENESS("полнота") {
         @Override
         protected PropertyCheckResult check(MatrixRelationship relationship) {
-            int iLimit  = MathUtil.getHalf(relationship.size());
+            int iLimit  = JavaUtil.getHalf(relationship.size());
 
             for (int i = 0; i < iLimit; i++) {
                 for (int j = iLimit; j < relationship.size(); j++) {
