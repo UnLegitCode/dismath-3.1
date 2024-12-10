@@ -46,6 +46,10 @@ public record Graph(int dotAmount, List<Edge> edges, int[][] adjacencyMatrix) {
                 }
             }
 
+            if (first == -1 || second == -1) {
+                throw new IllegalArgumentException("invalid incident matrix (contains less than 2 incident edges)");
+            }
+
             edges[i] = new Edge(Math.min(first, second), Math.max(first, second));
         }
 
