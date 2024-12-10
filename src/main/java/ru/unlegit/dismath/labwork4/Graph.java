@@ -1,6 +1,5 @@
 package ru.unlegit.dismath.labwork4;
 
-import it.unimi.dsi.fastutil.ints.IntArraySet;
 import it.unimi.dsi.fastutil.ints.IntRBTreeSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import it.unimi.dsi.fastutil.ints.IntSortedSet;
@@ -37,8 +36,12 @@ public record Graph(int dotAmount, List<Edge> edges, int[][] adjacencyMatrix) {
                 if (incidenceMatrix[j][i] == 1) {
                     if (first == -1) {
                         first = j + 1;
-                    } else {
+                    } else if (second == -1) {
                         second = j + 1;
+                    } else {
+                        throw new IllegalArgumentException(
+                                "invalid incident matrix (contains more than 2 incidents edges)"
+                        );
                     }
                 }
             }
