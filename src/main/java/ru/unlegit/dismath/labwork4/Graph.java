@@ -5,14 +5,13 @@ import it.unimi.dsi.fastutil.ints.IntSet;
 import it.unimi.dsi.fastutil.ints.IntSortedSet;
 import ru.unlegit.dismath.util.JavaUtil;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public record Graph(int dotAmount, List<Edge> edges, int[][] adjacencyMatrix) {
 
-    public record Edge(int start, int end) {
-    }
+    public record Edge(int start, int end) {}
 
     public static Graph withEdges(int dotAmount, Edge... edges) {
         int[][] adjacencyMatrix = new int[dotAmount][dotAmount];
@@ -54,6 +53,21 @@ public record Graph(int dotAmount, List<Edge> edges, int[][] adjacencyMatrix) {
         }
 
         return withEdges(dotAmount, edges);
+    }
+
+    public static Graph fromAdjacencyMatrix(int[][] adjacencyMatrix) {
+        int dotAmount = adjacencyMatrix.length;
+        List<Edge> edges = new LinkedList<>();
+
+        for (int i = 0; i < dotAmount; i++) {
+            for (int j = 0; j < dotAmount; j++) {
+                if (adjacencyMatrix[i][j] == 1) {
+                    edges.add(new Edge(i + 1, j + 1));
+                }
+            }
+        }
+
+        return new Graph(dotAmount, edges, adjacencyMatrix);
     }
 
     public int[][] buildIncidenceMatrix() {
@@ -174,5 +188,109 @@ public record Graph(int dotAmount, List<Edge> edges, int[][] adjacencyMatrix) {
         dots.add(start);
 
         getAllSimpleMaxChains(incidentMatrix, chain, 1, dots);
+    }
+
+    public boolean isHamiltonian() {
+        int[] path = new int[dotAmount];
+
+        Arrays.fill(path, -1);
+
+        path[0] = 0;
+
+        return hamiltonianCycleUtil(1, path);
+    }
+
+    private boolean hamiltonianCycleUtil(int pos, int[] path) {
+        if (pos == dotAmount) {
+            return adjacencyMatrix[path[pos - 1]][path[0]] == 1;
+        }
+
+        for (int v = 1; v < dotAmount; v++) {
+            if (isSafe(v, path, pos)) {
+                path[pos] = v;
+
+                if (hamiltonianCycleUtil(pos + 1, path)) {
+                    return true;
+                }
+
+                path[pos] = -1;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isSafe(int v, int[] path, int pos) {
+        if (adjacencyMatrix[path[pos - 1]][v] == 0) {
+            return false;
+        }
+
+        for (int i = 0; i < pos; i++) {
+            if (path[i] == v) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean isEulerian() {
+        int oddDegreeCount = 0;
+
+        for (int i = 0; i < dotAmount; i++) {
+            int degree = getDegree(i);
+
+            if (degree % 2 != 0) {
+                oddDegreeCount++;
+            }
+        }
+
+        if (oddDegreeCount != 0 && oddDegreeCount != 2) return false;
+
+        return isConnected();
+    }
+
+    private int getDegree(int vertex) {
+        int degree = 0;
+
+        for (Edge edge : edges) {
+            if (edge.start == vertex || edge.end == vertex) degree++;
+        }
+
+        return degree;
+    }
+
+    private boolean isConnected() {
+        boolean[] visited = new boolean[dotAmount];
+        int startVertex = -1;
+
+        for (int i = 0; i < dotAmount; i++) {
+            if (getDegree(i) > 0) {
+                startVertex = i;
+                break;
+            }
+        }
+
+        if (startVertex == -1) return true;
+
+        dfs(startVertex, visited);
+
+        for (int i = 0; i < dotAmount; i++) {
+            if (!visited[i] && getDegree(i) > 0) return false;
+        }
+
+        return true;
+    }
+
+    private void dfs(int vertex, boolean[] visited) {
+        visited[vertex] = true;
+
+        for (Edge edge : edges) {
+            if (edge.start - 1 == vertex && !visited[edge.end - 1]) {
+                dfs(edge.end - 1, visited);
+            } else if (edge.end - 1 == vertex && !visited[edge.start - 1]) {
+                dfs(edge.start - 1, visited);
+            }
+        }
     }
 }

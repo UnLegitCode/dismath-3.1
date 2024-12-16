@@ -51,4 +51,10 @@ public class JavaUtil {
     public int getHalf(int value) {
         return (value >> 1) + ((value % 2 == 1) ? 1 : 0);
     }
+
+    public void repeat(int repeats, Runnable action) {
+        for (int i = 0; i < repeats; i++) {
+            action.run();
+        }
+    }
 }
