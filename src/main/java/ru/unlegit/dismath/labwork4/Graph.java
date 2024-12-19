@@ -6,12 +6,17 @@ import it.unimi.dsi.fastutil.ints.IntSortedSet;
 import ru.unlegit.dismath.util.JavaUtil;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public record Graph(int dotAmount, List<Edge> edges, int[][] adjacencyMatrix) {
 
-    public record Edge(int start, int end) {}
+    public record Edge(int start, int end) {
+
+        @Override
+        public String toString() {
+            return "(%d;%d)".formatted(start, end);
+        }
+    }
 
     public static Graph withEdges(int dotAmount, Edge... edges) {
         int[][] adjacencyMatrix = new int[dotAmount][dotAmount];
@@ -292,5 +297,35 @@ public record Graph(int dotAmount, List<Edge> edges, int[][] adjacencyMatrix) {
                 dfs(edge.start - 1, visited);
             }
         }
+    }
+
+    public List<Edge> kruskalMST() {
+        int[] parent = new int[dotAmount];
+
+        for (int i = 0; i < dotAmount; i++) {
+            parent[i] = i;
+        }
+
+        List<Edge> mst = new ArrayList<>();
+
+        for (Edge edge : edges) {
+            int rootStart = find(parent, edge.start() - 1);
+            int rootEnd = find(parent, edge.end() - 1);
+
+            if (rootStart != rootEnd) {
+                mst.add(edge);
+                parent[rootEnd] = rootStart;
+            }
+        }
+
+        return mst;
+    }
+
+    private int find(int[] parent, int vertex) {
+        if (parent[vertex] != vertex) {
+            parent[vertex] = find(parent, parent[vertex]);
+        }
+
+        return parent[vertex];
     }
 }
